@@ -28,6 +28,9 @@ app.get("/notes", function(req, res) {
     })
 })
 
+const apiRoutes = require("./routes/apiRoutes.js")
+app.use("/api", apiRoutes)
+
 // Set listening port
 app.listen(PORT, function() {
     console.log("Server listening on Port " + PORT)
