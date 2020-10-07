@@ -1,6 +1,5 @@
 // Require packages
 const express = require("express");
-const fs = require("fs")
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,23 +11,12 @@ app.use(express.json());
 // Set static folder to "public"
 app.use(express.static("public")) 
 
-// Root path
-app.get("/", function(req, res) {
-    fs.readFile(__dirname + "/public/index.html", "utf8", (err, data) => {
-        if (err) throw err;
-        return res.send(data);
-    })
-})
+// Set html routes using module files
+const htmlRoutes = require("./routes/htmlRoutes")
+app.use(htmlRoutes)
 
-// Serve notes.html
-app.get("/notes", function(req, res) {
-    fs.readFile(__dirname + "/public/notes.html", "utf8", (err, data) => {
-        if (err) throw err;
-        return res.send(data);    
-    })
-})
-
-const apiRoutes = require("./routes/apiRoutes.js")
+// Set api routes using module files
+const apiRoutes = require("./routes/apiRoutes")
 app.use("/api", apiRoutes)
 
 // Set listening port

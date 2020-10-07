@@ -1,10 +1,11 @@
-const { json } = require("express");
 // require packages
 const express = require("express");
 const router = express.Router();
 const fs = require("fs")
 
-let idCounter = 0;
+//TODO: Fix this counter
+// Instantiate counter for auto-incrementing ids
+var idCounter = 1;
 
 // notes route
 router.get("/notes", function(req, res) {
@@ -25,7 +26,7 @@ router.post("/notes", function(req, res) {
         fs.writeFile("./db/db.json", JSON.stringify(jsonData), "utf8", (err) => {
             if (err) throw err;
         })
-        idCounter++
+        idCounter++;
         return res.json(jsonData)
 
     })
