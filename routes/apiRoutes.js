@@ -2,10 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs")
-
-//TODO: Fix this counter
-// Instantiate counter for auto-incrementing ids
-var idCounter = 1;
+// Why doesn't this work?
+// const helloWorld = require("../server")
 
 // notes route
 router.get("/notes", function(req, res) {
@@ -21,13 +19,20 @@ router.post("/notes", function(req, res) {
     fs.readFile("./db/db.json", "utf8", (err, data) => {
         if (err) throw err;
         let jsonData = JSON.parse(data)
-        note.id = idCounter;
-        jsonData.push(req.body);
-        fs.writeFile("./db/db.json", JSON.stringify(jsonData), "utf8", (err) => {
+        fs.readFile("./routes/counter.json", "utf8", (err, data) => {
             if (err) throw err;
+            let counter = parseInt(data);
+            note.id = counter;
+            counter++;
+            fs.writeFile("./routes/counter.json", counter, "utf8", (err) => {
+                if (err) throw err;
+            })
+            jsonData.push(note);
+            fs.writeFile("./db/db.json", JSON.stringify(jsonData), "utf8", (err) => {
+                if (err) throw err;
+            })
+            return res.json(jsonData)
         })
-        idCounter++;
-        return res.json(jsonData)
 
     })
     

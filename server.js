@@ -23,3 +23,6 @@ app.use("/api", apiRoutes)
 app.listen(PORT, function() {
     console.log("Server listening on Port " + PORT)
 })
+
+// module.exports = {hello: 'Hello World'};
+
