@@ -24,5 +24,7 @@ app.listen(PORT, function() {
     console.log("Server listening on Port " + PORT)
 })
 
-// module.exports = {hello: 'Hello World'};
+const counter = 1;
+
+module.exports = counter;
 

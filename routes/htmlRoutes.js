@@ -14,4 +14,7 @@ router.get("/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "../views/notes.html"))
 })
 
-module.exports = router;
+let counter = 1;
+module.exports = counter;
+
+// module.exports = router;

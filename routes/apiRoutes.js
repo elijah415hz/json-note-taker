@@ -3,7 +3,12 @@ const express = require("express");
 const router = express.Router();
 const fs = require("fs")
 // Why doesn't this work?
-// const helloWorld = require("../server")
+const serverCounter = require("../server")
+const htmlCounter = require("./htmlRoutes")
+
+console.log("server: " + serverCounter)
+console.log("html: " + serverCounter)
+
 
 // notes route
 router.get("/notes", function(req, res) {
