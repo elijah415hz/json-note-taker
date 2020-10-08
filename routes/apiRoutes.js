@@ -8,7 +8,7 @@ router.get("/notes", function(req, res) {
     fs.readFile("./db/db.json", "utf8", (err, data) => {
         if (err) throw err;
         let jsonData = JSON.parse(data)
-        return res.json(jsonData);
+        return res.json(jsonData.notes);
     })
 })
 
@@ -17,23 +17,14 @@ router.post("/notes", function(req, res) {
     fs.readFile("./db/db.json", "utf8", (err, data) => {
         if (err) throw err;
         let jsonData = JSON.parse(data)
-        fs.readFile("./routes/counter.json", "utf8", (err, data) => {
-            if (err) throw err;
-            let counter = parseInt(data);
-            note.id = counter;
-            counter++;
-            fs.writeFile("./routes/counter.json", counter, "utf8", (err) => {
-                if (err) throw err;
-            })
-            jsonData.push(note);
-            fs.writeFile("./db/db.json", JSON.stringify(jsonData), "utf8", (err) => {
-                if (err) throw err;
-            })
-            return res.json(jsonData)
-        })
-
+        let notes = jsonData.notes;
+        jsonData.lastID++;
+        let id = jsonData.lastID;
+        note.id = id;
+        notes.push(note);
+        fs.writeFileSync("./db/db.json", JSON.stringify(jsonData, null, 2), "utf8")
+        return res.json(notes)
     })
-    
 })
 
 router.delete("/notes/:id", function (req, res) {
@@ -41,10 +32,10 @@ router.delete("/notes/:id", function (req, res) {
     fs.readFile("./db/db.json", "utf8", (err, data) => {
         if (err) throw err;
         let jsonData = JSON.parse(data)
-        for (let i=0; i<jsonData.length; i++) {
-            if (jsonData[i].id == id) {
-                jsonData.splice(i, 1);
-                fs.writeFile("./db/db.json", JSON.stringify(jsonData), "utf8", err=>{
+        for (let i=0; i<jsonData.notes.length; i++) {
+            if (jsonData.notes[i].id == id) {
+                jsonData.notes.splice(i, 1);
+                fs.writeFile("./db/db.json", JSON.stringify(jsonData, null, 2), "utf8", err=>{
                     if(err) throw err;
                 })
                 return res.send("Deleted!")
