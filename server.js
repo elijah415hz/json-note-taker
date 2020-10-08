@@ -23,8 +23,3 @@ app.use("/api", apiRoutes)
 app.listen(PORT, function() {
     console.log("Server listening on Port " + PORT)
 })
-
-const counter = 1;
-
-module.exports = counter;
-

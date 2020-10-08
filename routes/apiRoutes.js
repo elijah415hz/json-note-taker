@@ -2,13 +2,6 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs")
-// Why doesn't this work?
-const serverCounter = require("../server")
-const htmlCounter = require("./htmlRoutes")
-
-console.log("server: " + serverCounter)
-console.log("html: " + serverCounter)
-
 
 // notes route
 router.get("/notes", function(req, res) {
@@ -51,11 +44,10 @@ router.delete("/notes/:id", function (req, res) {
         for (let i=0; i<jsonData.length; i++) {
             if (jsonData[i].id == id) {
                 jsonData.splice(i, 1);
-                console.log(jsonData)
                 fs.writeFile("./db/db.json", JSON.stringify(jsonData), "utf8", err=>{
                     if(err) throw err;
-                    return res.send("Deleted!")
                 })
+                return res.send("Deleted!")
             }
         }
         return res.send("Delete Failed")
